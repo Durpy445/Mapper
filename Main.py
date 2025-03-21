@@ -69,10 +69,7 @@ def CheckHash(Value,Array):
         return Location
     else:
         ProbeLocation = Probe(Value,Array)
-        if Array[ProbeLocation] == None:
-            return None
-        else:
-            return ProbeLocation
+        return ProbeLocation
 
 def StoreInHash(Value,Array):
     Location = HashFunction(Value,Array)
@@ -122,22 +119,22 @@ def CheckIfInMap(Value,Map):
         return False
 
 def Check(Link,Depth,MaxDepth,Map,Visited):
-    print(Link)
     StoreInHash(Link,Visited)
-    if Depth > MaxDepth :
-        return None
+    
     if CheckIfInMap(Link,Map) == False:
         Map[Link] = GetLinks(Link)
 
+    if Depth > MaxDepth :
+        return None
    
     Depth += 1
     for I in range(len(Map[Link])):
-        if CheckHash(Map[Link][I],Visited) == None:
+        if CheckIfInList(Map[Link][I],Visited) == False:
             Check(Map[Link][I],Depth,MaxDepth,Map,Visited)
        
 
 
-Check("https://www.youtube.com/",0,2,Nodes,Visited)
+Check("https://durpy445.github.io/",0,3,Nodes,Visited)
 
 print("\n\n\n\n\n")
 
