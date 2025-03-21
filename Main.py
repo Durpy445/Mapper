@@ -8,7 +8,7 @@ Nodes = {
 }
 
 
-Visited = [None] * 5000
+Visited = [None] * 10000
 
 def StrToInt(Value):
     Returned = 0
@@ -68,7 +68,11 @@ def CheckHash(Value,Array):
     if Array[Location] == Value:
         return Location
     else:
-        return Probe(Value,Array)
+        ProbeLocation = Probe(Value,Array)
+        if Array[ProbeLocation] == None:
+            return None
+        else:
+            return ProbeLocation
 
 def StoreInHash(Value,Array):
     Location = HashFunction(Value,Array)
@@ -95,9 +99,8 @@ def GetLinks(Link):
         Thing = link.get("href")
       
         if Thing != None:
-            print(Thing)
-            Thing = urljoin(Link, Thing)    
-            
+
+            Thing = urljoin(Link, Thing) 
             Returns.append(Thing)
         
         
@@ -119,17 +122,22 @@ def CheckIfInMap(Value,Map):
         return False
 
 def Check(Link,Depth,MaxDepth,Map,Visited):
+    print(Link)
     StoreInHash(Link,Visited)
     if Depth > MaxDepth :
         return None
     if CheckIfInMap(Link,Map) == False:
         Map[Link] = GetLinks(Link)
+
+   
     Depth += 1
     for I in range(len(Map[Link])):
-        Check(Map[Link][I],Depth,MaxDepth,Map,Visited)
+        if CheckHash(Map[Link][I],Visited) == None:
+            Check(Map[Link][I],Depth,MaxDepth,Map,Visited)
+       
 
 
-Check("https://www.youtube.com/",0,0,Nodes,Visited)
+Check("https://www.youtube.com/",0,2,Nodes,Visited)
 
 print("\n\n\n\n\n")
 
