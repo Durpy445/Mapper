@@ -95,9 +95,9 @@ def GetLinks(Link):
         Thing = link.get("href")
       
         if Thing != None:
-            time.sleep(0.1)
-            Thing = urljoin(Link, Thing)    
             print(Thing)
+            Thing = urljoin(Link, Thing)    
+            
             Returns.append(Thing)
         
         
@@ -129,5 +129,12 @@ def Check(Link,Depth,MaxDepth,Map,Visited):
         Check(Map[Link][I],Depth,MaxDepth,Map,Visited)
 
 
-Check("https://www.apple.com/uk/sitemap//",0,0,Nodes,Visited)
-print(Visited)
+Check("https://www.youtube.com/",0,0,Nodes,Visited)
+
+print("\n\n\n\n\n")
+
+for Node in Nodes:
+    print(Node)
+    for Item in Nodes[Node]:
+        print("       ",Item)
+    print("\n\n")
