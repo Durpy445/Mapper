@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import time
 from urllib.parse import urljoin
+import threading
 
 Nodes = {
     
@@ -11,6 +12,7 @@ Nodes = {
 Visited = [None] * 10000
 
 def StrToInt(Value):
+    print("ToInt")
     Returned = 0
     for Letter in Value:
         Returned +=ord(Letter)
@@ -18,18 +20,21 @@ def StrToInt(Value):
     return Returned
 
 def HashFunction(Value,Array):
+    print("HashFunc")
     Size = len(Array)
     if type(Value) == str:
         Value = StrToInt(Value) 
     return Value % Size
 
 def InBounds(Value,Array):
+    print("InBounds")
     if Value < 0 or Value >= len(Array):
         return False
     else:
         return True
 
 def Probe(Value,Array):
+    print("Probe")
     Location = HashFunction(Value,Array)
     
     Up = True
@@ -64,7 +69,7 @@ def Probe(Value,Array):
     return None
 
 def CheckHash(Value,Array):
-    print(Value)
+    print("CheckHash")
     Location = HashFunction(Value,Array)
     if Array[Location] == Value:
         return Location
@@ -73,6 +78,7 @@ def CheckHash(Value,Array):
         return ProbeLocation
 
 def StoreInHash(Value,Array):
+    print("StoreHash")
     Location = HashFunction(Value,Array)
     if Array[Location] == None:
         Array[Location] = Value
@@ -88,18 +94,23 @@ def StoreInHash(Value,Array):
 
 
 def GetLinks(Link):
+    print("GetLinks")
     Returns = []
    
-    
+    print("Response")
     try:
          response = requests.get(Link)
     except:
         print("Cant Get Response")
         return None
 
+
+    print("Soup")
     soup = BeautifulSoup(response.content, 'html.parser')
     links = soup.find_all("a") 
     
+
+    print("For Loop")
     for link in links:
         Thing = link.get("href")
       
@@ -117,6 +128,7 @@ def GetLinks(Link):
 
 
 def CheckIfInList(Value,List): 
+    print("CheckIfInList")
     Location = CheckHash(Value,List)
     if List[Location] == Value:
         return True
@@ -125,13 +137,15 @@ def CheckIfInList(Value,List):
 
 
 def CheckIfInMap(Value,Map):
+    print("CheckIfInMap")
     if Value in Map:
         return True
     else:
         return False
 
 def Check(Link,Depth,MaxDepth,Map,Visited):
-    print(Link)
+    print("Check" , Link)
+    
     StoreInHash(Link,Visited)
     
     if CheckIfInMap(Link,Map) == False:
@@ -151,12 +165,13 @@ def Check(Link,Depth,MaxDepth,Map,Visited):
             Check(Map[Link][I],Depth,MaxDepth,Map,Visited)
        
 
-StartTime = time.time
-Check("https://www.youtube.com/watch?v=iCh7KuXBO78",0,1,Nodes,Visited)
-TotalTime = time.time - StartTime
+StartTime = time.time() 
+Check("https://www.youtube.com/",0,2,Nodes,Visited)
+TotalTime = time.time() 
+TotalTime = (TotalTime - StartTime)
 
 File = open("Output.txt","w")
-File.write("Took " + str(StartTime) + " Seconds to complete \n\n")
+File.write("Took " + str(TotalTime) + " Seconds to complete \n\n")
 for Node in Nodes:
     File.write(Node + "\n")
     for Item in Nodes[Node]:
