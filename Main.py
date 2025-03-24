@@ -64,6 +64,7 @@ def Probe(Value,Array):
     return None
 
 def CheckHash(Value,Array):
+    print(Value)
     Location = HashFunction(Value,Array)
     if Array[Location] == Value:
         return Location
@@ -88,18 +89,29 @@ def StoreInHash(Value,Array):
 
 def GetLinks(Link):
     Returns = []
-    response = requests.get(Link)
-    soup = BeautifulSoup(response.content, 'html.parser')
+   
+    
+    try:
+         response = requests.get(Link)
+    except:
+        print("Cant Get Response")
+        return None
 
+    soup = BeautifulSoup(response.content, 'html.parser')
     links = soup.find_all("a") 
+    
     for link in links:
         Thing = link.get("href")
       
-        if Thing != None:
-
-            Thing = urljoin(Link, Thing) 
-            Returns.append(Thing)
+        if Thing != None and len(Thing) > 0:
+            if (Thing[0] == "/" or Thing[0] == "h"):
+                try:
+                    Thing = urljoin(Link, Thing) 
+                    Returns.append(Thing)
+                except:
+                    print("Can't Join Url")
         
+               
         
     return Returns
 
@@ -119,10 +131,16 @@ def CheckIfInMap(Value,Map):
         return False
 
 def Check(Link,Depth,MaxDepth,Map,Visited):
+    print(Link)
     StoreInHash(Link,Visited)
     
     if CheckIfInMap(Link,Map) == False:
-        Map[Link] = GetLinks(Link)
+        Links = GetLinks(Link)
+        if Links:
+            Map[Link] = GetLinks(Link)
+        else:
+            return None
+        
 
     if Depth > MaxDepth :
         return None
@@ -134,7 +152,7 @@ def Check(Link,Depth,MaxDepth,Map,Visited):
        
 
 
-Check("https://durpy445.github.io/",0,3,Nodes,Visited)
+Check("https://www.youtube.com/watch?v=iCh7KuXBO78",0,3,Nodes,Visited)
 
 print("\n\n\n\n\n")
 
