@@ -151,13 +151,14 @@ def Check(Link,Depth,MaxDepth,Map,Visited):
             Check(Map[Link][I],Depth,MaxDepth,Map,Visited)
        
 
+StartTime = time.time
+Check("https://www.youtube.com/watch?v=iCh7KuXBO78",0,1,Nodes,Visited)
+TotalTime = time.time - StartTime
 
-Check("https://www.youtube.com/watch?v=iCh7KuXBO78",0,3,Nodes,Visited)
-
-print("\n\n\n\n\n")
-
+File = open("Output.txt","w")
+File.write("Took " + str(StartTime) + " Seconds to complete \n\n")
 for Node in Nodes:
-    print(Node)
+    File.write(Node + "\n")
     for Item in Nodes[Node]:
-        print("       ",Item)
-    print("\n\n")
+        File.write("       "+Item)
+    File.write("\n\n\n")
