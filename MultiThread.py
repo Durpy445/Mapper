@@ -17,7 +17,6 @@ ToVisit = []
 
 def GetLinks(Link,Nodes,ToVisit,Visited,Depth,MaxDepth):
     if Depth >= MaxDepth:
-        print("more")
         return None
     Returns = []
     try:
@@ -33,12 +32,13 @@ def GetLinks(Link,Nodes,ToVisit,Visited,Depth,MaxDepth):
         Thing = link.get("href")
         try:
             Thing = urljoin(Link, Thing) 
-            Returns.append(Thing)
+            if not Thing in Returns:
+                Returns.append(Thing)
             if not(Thing in ToVisit or Thing in Visited):
                 ToVisit.append([Thing,Depth + 1])
         except:
             print("Can't Join Url")
-    print("Returning")
+    
     Nodes[Link] = Returns
 
 
@@ -50,7 +50,6 @@ async def UseLinks(Nodes,ToVisit,Visited,MaxDepth):
     async with TaskGroup() as group:
         for I in range(MaxThreads):
             if len(ToVisit) > 0:
-                    print("A")
                     group.create_task(UseLink(ToVisit[0][0],Nodes,ToVisit,Visited,ToVisit[0][1],MaxDepth))
                     Visited.append(ToVisit[0][0])
                     ToVisit.pop(0)
