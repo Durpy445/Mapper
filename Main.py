@@ -166,7 +166,7 @@ def Check(Link,Depth,MaxDepth,Map,Visited):
        
 
 StartTime = time.time() 
-Check("https://www.youtube.com/",0,2,Nodes,Visited)
+Check("https://www.youtube.com/",0,0,Nodes,Visited)
 TotalTime = time.time() 
 TotalTime = (TotalTime - StartTime)
 
@@ -176,4 +176,4 @@ for Node in Nodes:
     File.write(Node + "\n")
     for Item in Nodes[Node]:
         File.write("       "+Item)
-    File.write("\n\n\n")
+    File.write("\n\n\n")    
