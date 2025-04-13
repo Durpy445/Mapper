@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 import time
 
-MaxThreads = 10
+MaxThreads = 50
 
 Nodes = {}
 Visited = set()
@@ -67,15 +67,16 @@ def Start(StartingLink, Nodes, ToVisit, Visited, MaxDepth, DepthArray):
 
 
 StartTime = time.time()
-Start("https://www.youtube.com/", Nodes, ToVisit, Visited, 3, DepthArray)
+Start("https://www.youtube.com/", Nodes, ToVisit, Visited, 2, DepthArray)
 TotalTime = time.time() - StartTime
 
 with open("Output.txt", "w") as File:
-    File.write(f"Took {TotalTime:.2f} Seconds to complete\n\n")
+    #File.write(f"Took {TotalTime:.2f} Seconds to complete\n\n")
     for Node in Nodes:
         File.write(Node + "\n")
         for Item in Nodes[Node]:
-            File.write("       " + Item + "\n")
-        File.write("\n\n\n")
+            File.write(Item + ",")
+        File.write("\n")
+       
 
 print(f"Crawling completed in {TotalTime:.2f} seconds.")
