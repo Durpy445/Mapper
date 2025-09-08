@@ -70,13 +70,7 @@ StartTime = time.time()
 Start("https://www.youtube.com/", Nodes, ToVisit, Visited, 2, DepthArray)
 TotalTime = time.time() - StartTime
 
-with open("Output.txt", "w") as File:
-    #File.write(f"Took {TotalTime:.2f} Seconds to complete\n\n")
-    for Node in Nodes:
-        File.write(Node + "\n")
-        for Item in Nodes[Node]:
-            File.write(Item + ",")
-        File.write("\n")
-       
-
+import json
+with open("Data.json", "w") as final:
+	json.dump(Nodes, final)       
 print(f"Crawling completed in {TotalTime:.2f} seconds.")
