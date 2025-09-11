@@ -14,7 +14,7 @@ DepthArray = []
 async def GetLinks(session, Link, Nodes, ToVisit, Visited, Depth, MaxDepth, DepthArray):
     if Depth >= MaxDepth:
         return
-    
+
     Returns = []
     try:
         async with session.get(Link) as response:
@@ -36,7 +36,7 @@ async def GetLinks(session, Link, Nodes, ToVisit, Visited, Depth, MaxDepth, Dept
                 if Depth + 1 <= MaxDepth:
                     ToVisit.append(Thing)
                     DepthArray.append(Depth + 1)
-    
+
     Nodes[Link] = Returns
 
 
@@ -67,10 +67,10 @@ def Start(StartingLink, Nodes, ToVisit, Visited, MaxDepth, DepthArray):
 
 
 StartTime = time.time()
-Start("https://www.youtube.com/", Nodes, ToVisit, Visited, 2, DepthArray)
+Start("https://www.last.fm/user/durpy444/library?page=2", Nodes, ToVisit, Visited, 2, DepthArray)
 TotalTime = time.time() - StartTime
 
 import json
 with open("Data.json", "w") as final:
-	json.dump(Nodes, final)       
+	json.dump(Nodes, final)
 print(f"Crawling completed in {TotalTime:.2f} seconds.")
