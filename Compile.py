@@ -54,7 +54,7 @@ for site in List:
 
 
 Sizes = [G.degree(node) * 5 for node in G.nodes()]
-Colors = [[Amount[node] / Amount[List[0]], 0, 0] for node in G.nodes()]
+Colors = [[Amount[node] / Amount[List[0]], 0, abs(Amount[node] / Amount[List[0]] -1)] for node in G.nodes()]
 top_nodes = sorted(G.nodes(), key=lambda n: G.degree(n), reverse=True)[:Names]
 labels = {node: node for node in top_nodes}
 
@@ -67,8 +67,8 @@ pos = nx.spring_layout(G)
 
 
 plt.figure(figsize=(12, 12))
-plt.gca().set_facecolor("black")
-nx.draw_networkx_labels(G, pos, labels=labels, font_color="white")
+plt.gca().set_facecolor("white")
+nx.draw_networkx_labels(G, pos, labels=labels, font_color="black")
 nx.draw_networkx_nodes(G, pos, node_size=Sizes, node_color=Colors)
 
 nx.draw_networkx_edges(G, pos, edge_color="gray")
