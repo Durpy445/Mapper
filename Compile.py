@@ -28,8 +28,6 @@ TopSites = sorted(Amount.items(), key=lambda x: (-x[1], x[0]))
 List = [site for site, i in TopSites[:Max]]
 
 
-#print(List)
-
 import networkx as nx
 G = nx.Graph()
 
